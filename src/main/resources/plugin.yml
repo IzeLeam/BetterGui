@@ -1,0 +1,4 @@
+name: BetterGui
+version: '${project.version}'
+main: fr.izeleam.utils.bettergui.BetterGui
+api-version: '1.20'
