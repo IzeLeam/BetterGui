@@ -1,14 +1,11 @@
 package fr.izeleam.utils.bettergui.menus;
 
+import java.awt.Menu;
+
 public class MenuManager {
 
-  private static MenuManager menuManager;
-
-  public static MenuManager getInstance() {
-    if (menuManager == null) {
-      menuManager = new MenuManager();
-    }
-    return menuManager;
+  public static BetterMenu createMenu(String name) {
+    return new BetterMenu(name);
   }
 
 }

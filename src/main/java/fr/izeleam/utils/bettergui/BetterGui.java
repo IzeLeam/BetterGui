@@ -1,6 +1,5 @@
 package fr.izeleam.utils.bettergui;
 
-import fr.izeleam.utils.bettergui.item.Button;
 import fr.izeleam.utils.bettergui.item.ItemManager;
 import fr.izeleam.utils.bettergui.menus.MenuManager;
 import org.bukkit.Bukkit;
@@ -16,8 +15,13 @@ public final class BetterGui extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    Bukkit.getLogger().info("BetterGui enabling");
+    Bukkit.getLogger().info("BetterGUI enabling");
     Instance = this;
+
+    Bukkit.getLogger().info("Loading managers...");
+    itemManager = new ItemManager();
+    menuManager = new MenuManager();
+    Bukkit.getLogger().info("Managers loaded successfully");
   }
 
   @Override
@@ -25,11 +29,14 @@ public final class BetterGui extends JavaPlugin {
       // Plugin shutdown logic
   }
 
+  private static ItemManager itemManager;
+  private static MenuManager menuManager;
+
   public static ItemManager getItemManager() {
-    return ItemManager.getInstance();
+    return itemManager;
   }
 
   public static MenuManager getMenuManager() {
-    return MenuManager.getInstance();
+    return menuManager;
   }
 }
