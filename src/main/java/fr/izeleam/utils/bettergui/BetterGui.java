@@ -1,7 +1,7 @@
 package fr.izeleam.utils.bettergui;
 
 import fr.izeleam.utils.bettergui.item.ItemManager;
-import fr.izeleam.utils.bettergui.menus.MenuManager;
+import fr.izeleam.utils.bettergui.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

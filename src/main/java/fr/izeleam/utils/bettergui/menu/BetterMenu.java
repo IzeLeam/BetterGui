@@ -1,4 +1,4 @@
-package fr.izeleam.utils.bettergui.menus;
+package fr.izeleam.utils.bettergui.menu;
 
 import fr.izeleam.utils.bettergui.BetterGui;
 import fr.izeleam.utils.bettergui.item.BetterItem;
@@ -29,6 +29,14 @@ public class BetterMenu implements Listener {
 
   public BetterMenu(String name) {
     this.name = name;
+  }
+
+  public BetterMenu(String name, int lines) {
+    this.name = name;
+    int i = 0;
+    while (i++ < lines) {
+      this.addLine();
+    }
   }
 
   public void addLine(List<String> symbols) {
