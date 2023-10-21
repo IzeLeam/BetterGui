@@ -1,21 +1,23 @@
-package fr.izeleam.utils.bettergui.menus;
+package fr.izeleam.utils.bettergui.menu;
 
 import fr.izeleam.utils.bettergui.BetterGui;
 import fr.izeleam.utils.bettergui.item.BetterItem;
 import fr.izeleam.utils.bettergui.item.Button;
+import fr.izeleam.utils.bettergui.item.ButtonAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 
 public class BetterMenu implements Listener {
@@ -27,6 +29,14 @@ public class BetterMenu implements Listener {
 
   public BetterMenu(String name) {
     this.name = name;
+  }
+
+  public BetterMenu(String name, int lines) {
+    this.name = name;
+    int i = 0;
+    while (i++ < lines) {
+      this.addLine();
+    }
   }
 
   public void addLine(List<String> symbols) {
@@ -79,32 +89,50 @@ public class BetterMenu implements Listener {
   }
 
   @EventHandler
+  public void onInventoryDrag(InventoryDragEvent event) {
+    event.getWhoClicked().sendMessage("§8Drag !");
+  }
+
+  @EventHandler
   public void onInventoryClick(InventoryClickEvent event) {
     if (event.getClickedInventory() == null) {
       return;
     }
-    if (!event.getClickedInventory().getType().equals(InventoryType.PLAYER)) {
-      event.setCancelled(true);
+    if (!event.getInventory().getViewers().contains(event.getWhoClicked())) {
+      return;
+    }
+    if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) {
       return;
     }
 
-    Player player = (Player) event.getWhoClicked();
-    if (!event.getInventory().getViewers().contains(player)) {
-      return;
-    }
+    switch (event.getAction()) {
+      case MOVE_TO_OTHER_INVENTORY :
+      case COLLECT_TO_CURSOR:
+        event.setCancelled(true);
+        break;
+      default:
+        ButtonAction action = buttons.get(event.getSlot()).getButtonAction();
 
-    Button button = buttons.get(event.getSlot());
-    if (button == null) {
-      return;
+        Player player = (Player) event.getWhoClicked();
+        switch(event.getClick()) {
+          case LEFT :
+            action.onLeftClick(player);
+            action.onClick(player);
+            break;
+          case RIGHT:
+            action.onRightClick(player);
+            action.onClick(player);
+            break;
+          case SHIFT_LEFT :
+          case SHIFT_RIGHT:
+            action.onShiftClick(player);
+            action.onClick(player);
+            break;
+          case MIDDLE:
+            action.onMiddleClick(player);
+            break;
+          default:
+        }
     }
-
-    button.getButtonAction().onClick(player);
-    if (event.getClick().isLeftClick()) {
-      button.getButtonAction().onClick(player);
-    } else {
-      button.getButtonAction().onRightClick(player);
-    }
-
-    event.setCancelled(true);
   }
 }

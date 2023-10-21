@@ -6,7 +6,7 @@
 
   <groupId>fr.izeleam.utils</groupId>
   <artifactId>BetterGui</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>BetterGui</name>
@@ -17,6 +17,8 @@
   </properties>
 
   <build>
+    <defaultGoal>clean install</defaultGoal>
+    <finalName>BetterGui</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
