@@ -1,5 +1,7 @@
 package fr.izeleam.utils.bettergui.item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
@@ -44,6 +46,11 @@ public class BetterItem extends ItemStack {
     assert meta != null;
     meta.setLore(lore);
     this.setItemMeta(meta);
+    return this;
+  }
+
+  public BetterItem setLore(String... lore) {
+    setLore(List.of(lore));
     return this;
   }
 
